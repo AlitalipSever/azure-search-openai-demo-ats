@@ -1,6 +1,6 @@
 import { Outlet, NavLink, Link } from "react-router-dom";
 
-import github from "../../assets/github.svg";
+import futurice from "../../assets/futurice.svg";
 
 import styles from "./Layout.module.css";
 
@@ -10,7 +10,7 @@ const Layout = () => {
             <header className={styles.header} role={"banner"}>
                 <div className={styles.headerContainer}>
                     <Link to="/" className={styles.headerTitleContainer}>
-                        <h3 className={styles.headerTitle}>GPT + Enterprise data | Sample</h3>
+                        <h3 className={styles.headerTitle}>GPT + Futurice | Sample</h3>
                     </Link>
                     <nav>
                         <ul className={styles.headerNavList}>
@@ -25,10 +25,10 @@ const Layout = () => {
                                 </NavLink>
                             </li>
                             <li className={styles.headerNavLeftMargin}>
-                                <a href="https://aka.ms/entgptsearch" target={"_blank"} title="Github repository link">
+                                <a href="https://github.com/AlitalipSever/azure-search-openai-demo-ats" target={"_blank"} title="Github repository link">
                                     <img
-                                        src={github}
-                                        alt="Github logo"
+                                        src={futurice}
+                                        alt="Futurice logo"
                                         aria-label="Link to github repository"
                                         width="20px"
                                         height="20px"
