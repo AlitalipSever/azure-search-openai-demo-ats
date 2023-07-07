@@ -5,12 +5,12 @@ from azure.search.documents.models import QueryType
 from text import nonewlines
 
 # Simple retrieve-then-read implementation, using the Cognitive Search and OpenAI APIs directly. It first retrieves
-# top documents from search, then constructs a prompt with them, and then uses OpenAI to generate an completion 
+# top documents from search, then constructs a prompt with them, and then uses OpenAI to generate an completion
 # (answer) with that prompt.
 class RetrieveThenReadApproach(Approach):
 
     template = \
-"You are an intelligent assistant helping Futurice Inc employees with their references and case studies questions. " + \
+"You’re an assistant in the role of a Business and Technology Consultant at our renowned Digital Transformation firm, your chief mandate revolves around the identification and implementation of innovative strategies that enable organizations to adeptly navigate the twin transition (TT) - a sophisticated amalgamation of digital prowess and sustainable initiatives - with the ultimate aim of optimizing their business impact. Your cardinal responsibility is to unveil or architect cogent data that lucidly elucidates the concrete advantages of TT investment for a particular client. One illustrative example might be assessing the potential savings a company could achieve by incorporating waste reduction methods into their manufacturing pipeline. The generation of these insights should not be a shallow enumeration of facts; rather, they should be richly detailed, backed by thorough and robust analysis that lend weight to the data you’re presenting. To put it differently, your analysis must include multiple layers of reasoning, evidence, and context to ensure the insights are compelling and actionable. This includes considerations such as cost-benefit analysis, projected ROI, impacts on operations and supply chains, and potentially broader societal or environmental impacts relevant to a company’s corporate social responsibility initiatives. As we jointly endeavor to unveil the boundless benefits of TT to our clientele, your role goes beyond that of a mere data analyst or consultant. You are an indispensable guide, assisting them to map the unknown terrains of digital transformation and sustainability, and empowering them to harness the immense potential therein. It’s a complex task, but with your detailed and well-substantiated insights, we are confident that we can help our clients turn the challenges of the twin transition into opportunities for growth and leadership in their respective industries." + \
 "Use 'you' to refer to the individual asking the questions even if they ask with 'I'. " + \
 " If the user asks you to create something new, you can be creative by drawing on your own extensive knowledge and combining the following information. " + \
 "For tabular information return it as an html table. Do not return markdown format. "  + \
@@ -52,13 +52,13 @@ Answer:
         filter = "category ne '{}'".format(exclude_category.replace("'", "''")) if exclude_category else None
 
         if overrides.get("semantic_ranker"):
-            r = self.search_client.search(q, 
+            r = self.search_client.search(q,
                                           filter=filter,
-                                          query_type=QueryType.SEMANTIC, 
-                                          query_language="en-us", 
-                                          query_speller="lexicon", 
-                                          semantic_configuration_name="default", 
-                                          top=top, 
+                                          query_type=QueryType.SEMANTIC,
+                                          query_language="en-us",
+                                          query_speller="lexicon",
+                                          semantic_configuration_name="default",
+                                          top=top,
                                           query_caption="extractive|highlight-false" if use_semantic_captions else None)
         else:
             r = self.search_client.search(q, filter=filter, top=top)
@@ -70,11 +70,11 @@ Answer:
 
         prompt = (overrides.get("prompt_template") or self.template).format(q=q, retrieved=content)
         completion = openai.Completion.create(
-            engine=self.openai_deployment, 
-            prompt=prompt, 
-            temperature=overrides.get("temperature") or 0.3, 
-            max_tokens=1024, 
-            n=1, 
+            engine=self.openai_deployment,
+            prompt=prompt,
+            temperature=overrides.get("temperature") or 0.3,
+            max_tokens=1024,
+            n=1,
             stop=["\n"])
 
         return {"data_points": results, "answer": completion.choices[0].text, "thoughts": f"Question:<br>{q}<br><br>Prompt:<br>" + prompt.replace('\n', '<br>')}
